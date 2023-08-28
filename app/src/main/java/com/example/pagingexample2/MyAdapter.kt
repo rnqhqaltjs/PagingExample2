@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.pagingexample2.data.Data
+import com.example.pagingexample2.new_data.NewItems
 
-class MyAdapter : PagingDataAdapter<Data, MyAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class MyAdapter : PagingDataAdapter<NewItems, MyAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Data>(){
-            override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
-                return oldItem._id == newItem._id
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NewItems>(){
+            override fun areItemsTheSame(oldItem: NewItems, newItem: NewItems): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+            override fun areContentsTheSame(oldItem: NewItems, newItem: NewItems): Boolean {
                 return oldItem == newItem
             }
         }
@@ -30,9 +31,9 @@ class MyAdapter : PagingDataAdapter<Data, MyAdapter.MyViewHolder>(DIFF_CALLBACK)
         val imgArea = view.findViewById<ImageView>(R.id.imgArea)
         val textArea = view.findViewById<TextView>(R.id.textArea)
 
-        fun bind(item : Data) {
-            textArea.text = item._id
-            imgArea.load(item.airline[0].logo)
+        fun bind(item : NewItems) {
+            textArea.text = item.id.toString()
+            imgArea.load(item.owner.avatar_url)
         }
 
     }

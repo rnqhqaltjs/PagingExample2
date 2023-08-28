@@ -5,26 +5,23 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingexample2.data.Data
 import com.example.pagingexample2.network.PassengerApi
+import com.example.pagingexample2.new_data.NewItems
+import com.example.pagingexample2.new_network.GithubApi
 import kotlinx.coroutines.delay
 
 private const val STARTING_KEY = 1
 
 class MyPagingSource(
-    private val passengerApi: PassengerApi
-) : PagingSource<Int, Data>() {
+    private val githubApi: GithubApi
+) : PagingSource<Int, NewItems>() {
 
-    init {
-        Log.d("MyPagingSource", "init")
-    }
-
-    // Paging 이 실행되면 어떻게 할 것인지 정하는 부분
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NewItems> {
 
         val page = params.key ?: STARTING_KEY
 
-        val response = passengerApi.getData(page, params.loadSize)
+        val response = githubApi.getData("android", page, params.loadSize)
 
-        val data = response.body()?.data
+        val data = response.items
 
         if(page != 1) {
             delay(2000)
@@ -46,7 +43,7 @@ class MyPagingSource(
 
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Data>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, NewItems>): Int? {
 
         Log.d("getRefreshKey", "start")
 

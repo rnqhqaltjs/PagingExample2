@@ -15,12 +15,18 @@ import org.w3c.dom.Text
 import java.time.LocalDate
 
 
-//https://api.instantwebtools.net/v1/passenger?page=1&size=90
+// https://api.instantwebtools.net/v1/passenger?page=1&size=90
+
+// -> 아래의 주소로 변경
+
+// https://api.github.com/search/repositories?q=android$page=1&per_page=90
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -33,9 +39,13 @@ class MainActivity : AppCompatActivity() {
         rv.adapter = myAdapter
 
         lifecycleScope.launch {
-            viewModel.items.collect {
+
+            viewModel.items.collect{
+
                 myAdapter.submitData(it)
+
             }
+
         }
 
         val loadingNext = findViewById<TextView>(R.id.loadingNext)
@@ -57,5 +67,6 @@ class MainActivity : AppCompatActivity() {
         refresh.setOnClickListener {
             myAdapter.refresh()
         }
+
     }
 }
